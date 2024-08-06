@@ -72,11 +72,12 @@ export const login = async (request, response) => {
                role: user.role,
                profile: user.profile
           }
-          return response.status(200).cookie("token", token, { maxTime: 1 * 24 * 60 * 60 * 100, httpsOnly: true, sameSite: 'strict' }).json({
-               message: "Login successful!",
+          return response.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+               message: `Login successful ${user.fullname}!`,
                success: true,
                user
           })
+
      } catch (error) {
           console.log(error)
      }
@@ -84,7 +85,7 @@ export const login = async (request, response) => {
 
 export const logout = async (request, response) => {
      try {
-          return response.status(200).cookie("token", "", { maxTime: 0 }).json({
+          return response.status(200).cookie("token", "", { maxAge: 0 }).json({
                message: "Logout successful!",
                success: true,
           })
@@ -97,35 +98,32 @@ export const logout = async (request, response) => {
 export const updateProfile = async (request, response) => {
      try {
           const { fullname, email, phone, bio, skills } = request.body;
-          const file = req.file;
-          if (!fullname || !email || !phone || !bio || !skills) {
-               return response.status(400).json({
-                    message: "Something is missing",
-                    success: false
-               });
-          };
+          const file = request.file;
+
 
           // cloudnary
+          let skillsArrays;
+          if (skills) {
+               skillsArrays = skills.split(",");
+          }
 
-          const skillsArrays = skills.split(",");
-          const userId = req.id; // middleware authentication
+          const userId = request.id; // middleware authentication
           let user = await User.findById(userId);
 
           if (!user) {
-               return res.status(400).json({
+               return response.status(400).json({
                     message: "User not found.",
                     success: false
                })
           }
 
+
           // updating data
-          user.fullname = fullname,
-               user.email = email,
-               user.phone = phone,
-               user.profile.bio = bio,
-               user.profile.skills = skillsArrays
-
-
+          if (fullname) user.fullname = fullname
+          if (email) user.email = email
+          if (phone) user.phone = phone
+          if (bio) user.profile.bio = bio
+          if (skills) user.profile.skills = skillsArrays
 
           await user.save();
 
@@ -137,7 +135,7 @@ export const updateProfile = async (request, response) => {
                role: user.role,
                profile: user.profile
           }
-          return res.status(200).json({
+          return response.status(200).json({
                message: "Profile updated successfully.",
                user,
                success: true
