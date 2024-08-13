@@ -7,16 +7,21 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { toast } from "sonner"
+import { useDispatch } from "react-redux"
+import { setLoading } from "@/redux/authSlice"
+import { useSelector } from "react-redux"
+import { Loader2 } from "lucide-react"
 
 const Login = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
      const navigate = useNavigate();
-     console.log(apiUrl)
+     const dispatch = useDispatch();
      const [input, setInput] = useState({
           email: "",
           password: "",
           role: "",
      });
+     const { loading } = useSelector(store => store.auth)
 
      const changeEventHandler = (e) => {
           setInput({ ...input, [e.target.name]: e.target.value });
@@ -25,6 +30,7 @@ const Login = () => {
      const submitHandler = async (e) => {
           e.preventDefault();
           try {
+               dispatch(setLoading(true))
                const login = await axios.post(`${apiUrl}/user/login`, input, {
                     headers: {
                          "Content-Type": "application/json"
@@ -38,6 +44,8 @@ const Login = () => {
           } catch (error) {
                console.log(error);
                toast.error(error.response.data.message);
+          } finally {
+               dispatch(setLoading(false))
           }
      };
      return (
@@ -64,7 +72,11 @@ const Login = () => {
                               </div>
                          </RadioGroup>
                     </div>
-                    <Button type="submit" className="w-full my-4  bg-[#00c0e4] hover:bg-[#063748]">Login</Button>
+                    {
+                         loading ? <Button className="w-full my-4  bg-[#00c0e4] hover:bg-[#063748]"><Loader2 className="mr-2 h-4 w-4 animate-spin" />Please wait</Button>
+                              :
+                              <Button type="submit" className="w-full my-4  bg-[#00c0e4] hover:bg-[#063748]">Login</Button>
+                    }
                     <span className="text-sm">Do&apos;nt have an account? <Link to="/login" className="text-[#00c0e4]">login</Link></span>
                </form>
           </div>

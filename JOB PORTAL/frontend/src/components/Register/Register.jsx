@@ -7,10 +7,17 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+import { useDispatch } from "react-redux";
+import { Loader2 } from "lucide-react";
 
 const Register = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
      const navigate = useNavigate();
+     const dispatch = useDispatch();
+     const { loading } = useSelector(store => store.auth)
+
      const [input, setInput] = useState({
           fullname: "",
           email: "",
@@ -19,6 +26,7 @@ const Register = () => {
           role: "",
           file: "",
      });
+
 
      const changeEventHandler = (e) => {
           setInput({ ...input, [e.target.name]: e.target.value });
@@ -40,6 +48,8 @@ const Register = () => {
                formData.append("file", input.file);
           }
           try {
+               dispatch(setLoading(true))
+
                const register = await axios.post(`${apiUrl}/user/register`, formData, {
                     headers: {
                          "Content-Type": "multipart/form-data"
@@ -53,6 +63,9 @@ const Register = () => {
           } catch (error) {
                console.log(error)
                toast.error(error.response.data.message);
+          } finally {
+               dispatch(setLoading(false))
+
           }
      };
 
@@ -92,7 +105,11 @@ const Register = () => {
                               <Input accept="image/*" type="file" onChange={changeFileHandler} className="cursor-pointer" />
                          </div>
                     </div>
-                    <Button type="submit" className="w-full my-4 bg-[#00c0e4] hover:bg-[#063748]">Register</Button>
+                    {
+                         loading ? <Button className="w-full my-4  bg-[#00c0e4] hover:bg-[#063748]"><Loader2 className="mr-2 h-4 w-4 animate-spin" />Please wait</Button>
+                              :
+                              <Button type="submit" className="w-full my-4 bg-[#00c0e4] hover:bg-[#063748]">Register</Button>
+                    }
                     <span className="text-sm">Already have an account? <Link to="/login" className="text-[#00c0e4]">Login</Link></span>
                </form>
           </div>
