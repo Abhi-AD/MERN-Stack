@@ -7,17 +7,17 @@ import { Link } from "react-router-dom"
 const Navbar = () => {
      const user = false;
      return (
-          <div className="bg-white">
-               <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
-                    <div className="flex items-center">
+          <div className="bg-white ">
+               <div className="flex items-center justify-between paddingcontainer h-16">
+                    <Link to={`/`} className="flex items-center">
                          {/* <img src="" alt="Logo" className="h-10 w-auto" /> */}
                          <h1 className="text-3xl font-extrabold">Career <span className="text-[#00c0e4]">Connect</span></h1>
-                    </div>
+                    </Link>
                     <div className="flex items-center gap-12">
                          <ul className="flex font-medium items-center gap-5">
-                              <li>Home</li>
-                              <li>Jobs</li>
-                              <li>Browse</li>
+                              <li><Link to={`/`}>Home</Link></li>
+                              <li><Link to={`/jobs`}>Jobs</Link></li>
+                              <li><Link to={`/browse`}>Browse</Link></li>
                          </ul>
                          {!user ? (
                               <div className="flex items-center gap-2">

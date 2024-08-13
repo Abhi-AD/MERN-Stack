@@ -1,8 +1,11 @@
+import { CategoryCarousal, Herosection, LatestJobs } from "@/container/import"
 
 const Home = () => {
      return (
-          <div>
-               fmn
+          <div className="paddingcontainer">
+               <Herosection />
+               <CategoryCarousal />
+               <LatestJobs />
           </div>
      )
 }
