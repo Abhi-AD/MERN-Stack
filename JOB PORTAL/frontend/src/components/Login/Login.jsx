@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { toast } from "sonner"
 import { useDispatch } from "react-redux"
-import { setLoading } from "@/redux/authSlice"
+import { setLoading, setUser } from "@/redux/authSlice"
 import { useSelector } from "react-redux"
 import { Loader2 } from "lucide-react"
 
@@ -38,6 +38,7 @@ const Login = () => {
                     withCredentials: true,
                });
                if (login.data.success) {
+                    dispatch(setUser(login.data.user))
                     navigate("/")
                     toast.success(login.data.message);
                }
