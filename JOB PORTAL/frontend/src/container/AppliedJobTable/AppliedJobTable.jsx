@@ -50,7 +50,7 @@ const appliedJobs = [
 
 const AppliedJobTable = () => {
      return (
-          <div>
+          <div className="paddingbuttom">
                <Table>
                     <TableCaption>A list of your applied jobs</TableCaption>
                     <TableHeader>
@@ -70,10 +70,10 @@ const AppliedJobTable = () => {
                                    <TableCell className="text-right">
                                         <Badge
                                              className={`${appliedJob.status === "rejected"
-                                                       ? 'bg-red-400'
-                                                       : appliedJob.status === "pending"
-                                                            ? 'bg-gray-400'
-                                                            : 'bg-green-400'
+                                                  ? 'bg-red-400'
+                                                  : appliedJob.status === "pending"
+                                                       ? 'bg-gray-400'
+                                                       : 'bg-green-400'
                                                   }`}
                                         >
                                              {appliedJob.status.toUpperCase()}

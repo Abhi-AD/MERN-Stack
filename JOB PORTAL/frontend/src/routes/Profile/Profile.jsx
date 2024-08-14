@@ -2,18 +2,19 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { AppliedJobTable } from "@/container/import";
+import { AppliedJobTable, UpdateProfileDialog } from "@/container/import";
 import { Pen } from "lucide-react";
 import { Contact } from "lucide-react";
 import { Mail } from "lucide-react";
+import { useState } from "react";
 
 const skills = ["Html", "Css", "Javascript", "Reactjs"]
 const isResume = true;
 
 const Profile = () => {
-
+     const [open, setOpen] = useState(false);
      return (
-          <div>
+          <div className="paddingbuttom">
                <div className='paddingcontainer bg-white border border-gray-200 rounded-2xl my-5 p-8'>
                     <div className='flex justify-between'>
                          <div className='flex items-center gap-4'>
@@ -25,7 +26,7 @@ const Profile = () => {
                                    <p>Bio</p>
                               </div>
                          </div>
-                         <Button className="text-right" variant="outline"><Pen /></Button>
+                         <Button onClick={() => setOpen(true)} className="text-right" variant="outline"><Pen /></Button>
                     </div>
                     <div className='my-5'>
                          <div className='flex items-center gap-3 my-2'>
@@ -56,7 +57,7 @@ const Profile = () => {
                     <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
                     <AppliedJobTable />
                </div>
-               {/* <UpdateProfileDialog open={open} setOpen={setOpen} /> */}
+               <UpdateProfileDialog open={open} setOpen={setOpen} />
           </div>
      )
 }
