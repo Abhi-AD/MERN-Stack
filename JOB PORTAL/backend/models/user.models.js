@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
           resume: { type: String },
           resumeOrignalName: { type: String },
           company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
-          profile: { type: String, default: "" },
+          profilePhoto: { type: String, default: "" },
      },
 }, { timestamps: true });
 export const User = mongoose.model('User', userSchema);

@@ -1,3 +1,4 @@
+
 import { User } from "../models/user.models.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
@@ -13,6 +14,11 @@ export const register = async (request, response) => {
                     success: false
                });
           };
+          // cloudinary
+          const file = request.file;
+          const fileUri = getDataUri(file);
+          const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
           const user = await User.findOne({ email });
           if (user) {
                return response.status(400).json({
@@ -22,7 +28,9 @@ export const register = async (request, response) => {
           }
           const hashedPassword = await bcrypt.hash(password, 10);
           await User.create({
-               fullname, email, phone, password: hashedPassword, role
+               fullname, email, phone, password: hashedPassword, role, profile: {
+                    profilePhoto: cloudResponse.secure_url,
+               }
           })
           return response.status(201).json({
                message: "Create Account successful!",
