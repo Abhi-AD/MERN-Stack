@@ -3,46 +3,68 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Bookmark } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-
-const Job = () => {
+import PropTypes from 'prop-types';
+const Job = ({ job }) => {
      const navigate = useNavigate();
-     const jobId = "vuifurhvbdfwy3y8ruo"
+     const daysAgoFunction = (mongodbTime) => {
+          const createdAt = new Date(mongodbTime);
+          const currentTime = new Date();
+          const timeDifference = currentTime - createdAt;
+          return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+     }
      return (
           <div className="p-5 rounded-md shadow-sm bg-white border border-[#00c0e4]">
                <div className="flex items-center justify-between">
-                    <p className='text-sm text-gray-500'>2 day ago</p>
+                    <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
                     <Button variant='outline' className="rounded-full" size="icon"><Bookmark /></Button>
                </div>
 
                <div className='flex items-center gap-2 my-2'>
                     <Button className="p-6" variant="outline" size="icon">
                          <Avatar>
-                              <AvatarImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZR3MWDG6JjCRIAl46CNpzt5JGfB7ZY2fRNw&s" />
+                              <AvatarImage src={job?.company?.logo}
+                              />
                          </Avatar>
                     </Button>
                     <div>
-                         <h1 className='font-medium text-lg'>Company Name</h1>
+                         <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
                          <p className='text-sm text-gray-500'>Nepal</p>
                     </div>
                </div>
 
                <div>
-                    <h1 className='font-bold text-lg my-2'>Job Title</h1>
+                    <h1 className='font-bold text-lg my-2'>{job?.title}</h1>
                     <p className='text-sm text-gray-600 line-clamp-4'>Job description Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit, veniam nulla explicabo dolore sed possimus, fuga numquam rerum ratione dolores dicta esse illo praesentium impedit modi sapiente rem eaque molestias.</p>
                </div>
 
                <div className='flex items-center gap-2 mt-4'>
-                    <Badge className={'text-[#000000] font-bold'} variant="ghost">Full Positions</Badge>
-                    <Badge className={'text-[#00c0e4] font-bold'} variant="ghost">Full Time</Badge>
-                    <Badge className={'text-[#063748] font-bold'} variant="ghost">12LPA</Badge>
+                    <Badge className={'text-[#000000] font-bold'} variant="ghost">{job?.position} Positions</Badge>
+                    <Badge className={'text-[#00c0e4] font-bold'} variant="ghost">{job?.jobType}</Badge>
+                    <Badge className={'text-[#063748] font-bold'} variant="ghost">{job?.salary}</Badge>
                </div>
 
                <div className='flex items-center gap-4 mt-4'>
-                    <Button onClick={() => navigate(`/jobs/${jobId}`)} variant="outline">Details</Button>
+                    <Button onClick={() => navigate(`/jobs/${job?._id}`)} variant="outline">Details</Button>
                     <Button className="bg-[#063748]">Save For Later</Button>
                </div>
           </div>
      )
 }
+
+Job.propTypes = {
+     job: PropTypes.shape({
+          company: PropTypes.shape({
+               name: PropTypes.string.isRequired,
+               logo: PropTypes.string,
+          }).isRequired,
+          title: PropTypes.string.isRequired,
+          description: PropTypes.string.isRequired,
+          position: PropTypes.string.isRequired,
+          jobType: PropTypes.string.isRequired,
+          salary: PropTypes.string.isRequired,
+          createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
+          _id: PropTypes.string.isRequired,
+     }).isRequired,
+};
 
 export default Job

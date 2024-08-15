@@ -1,10 +1,10 @@
 // import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LatestJobCards from './LatestJobCards';
 
-const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const LatestJobs = () => {
-
+     const { allJobs } = useSelector(store => store.job);
      return (
           <div className='paddingbuttom'>
                <h1 className='text-4xl font-bold'>
@@ -15,9 +15,9 @@ const LatestJobs = () => {
                </p>
                <div className='grid grid-cols-3 gap-4 my-5'>
                     {
-                         randomJobs.length <= 0
+                         allJobs.length <= 0
                               ? <span>No positions available right now</span>
-                              : randomJobs.slice(0, 6).map((job) => <LatestJobCards key={job._id} job={job} />)
+                              : allJobs.slice(0, 6).map((job) => <LatestJobCards key={job._id} job={job} />)
                     }
                </div>
           </div>

@@ -1,26 +1,51 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
+import { setSingleJob } from "@/redux/jobSlice";
+import axios from "axios";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
-const singleJob = {
-     title: 'Software Engineer',
-     location: 'New York, NY',
-     description: 'Develop and maintain software applications.',
-     experience: 3,
-     salary: 12,
-     applications: [/* Array of applicants */],
-     createdAt: '2024-08-13T10:00:00Z',
-};
 const JobDetails = () => {
-     const isApplied = true;
+     const apiUrl = import.meta.env.VITE_API_URL;
+     const { singleJob } = useSelector(store => store.job)
+     const { user } = useSelector(store => store.auth);
+     const isApplied = singleJob?.application?.some(application => application.applicant === user?._id) || false;
+
+     // const isApplied = true;
+
+
+     const params = useParams();
+     const jobId = params.id;
+     const dispatch = useDispatch();
+     console.log(jobId)
+
+
+
+     useEffect(() => {
+          const fetchIdJobs = async () => {
+               try {
+                    const singlejob = await axios.get(`${apiUrl}/jobs/get/${jobId}`, { withCredentials: true });
+                    console.log("single", singlejob)
+                    if (singlejob.data.success) {
+                         dispatch(setSingleJob(singlejob.data.job));
+                    }
+               } catch (error) {
+                    console.log(error);
+               }
+          }
+          fetchIdJobs();
+     }, [jobId, dispatch, user?._id])
      return (
           <div className="paddingcontainer">
                <div className='flex items-center justify-between'>
                     <div>
                          <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
                          <div className='flex items-center gap-2 mt-4'>
-                              <Badge className={'text-[#000000] font-bold'} variant="ghost">Full Positions</Badge>
-                              <Badge className={'text-[#00c0e4] font-bold'} variant="ghost">Full Time</Badge>
-                              <Badge className={'text-[#063748] font-bold'} variant="ghost">12LPA</Badge>
+                              <Badge className={'text-[#000000] font-bold'} variant="ghost">{singleJob?.postion} Positions</Badge>
+                              <Badge className={'text-[#00c0e4] font-bold'} variant="ghost">{singleJob?.jobType}</Badge>
+                              <Badge className={'text-[#063748] font-bold'} variant="ghost">{singleJob?.salary}</Badge>
                          </div>
                     </div>
                     <Button
@@ -37,7 +62,7 @@ const JobDetails = () => {
                     <h1 className='font-bold my-1'>Description: <span className='pl-4 font-normal text-gray-800'>{singleJob?.description}</span></h1>
                     <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-800'>{singleJob?.experience} yrs</span></h1>
                     <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}LPA</span></h1>
-                    <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
+                    <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.application?.length}</span></h1>
                     <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
                </div>
           </div>
