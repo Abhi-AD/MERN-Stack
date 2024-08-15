@@ -20,18 +20,18 @@ const LatestJobCards = ({ job }) => {
           </div>
      )
 }
+
 LatestJobCards.propTypes = {
      job: PropTypes.shape({
           company: PropTypes.shape({
                name: PropTypes.string.isRequired,
-          }),
+          }).isRequired,
           title: PropTypes.string.isRequired,
           description: PropTypes.string.isRequired,
-
-          position: PropTypes.string.isRequired,
-
+          position: PropTypes.number.isRequired,
           jobType: PropTypes.string.isRequired,
-          salary: PropTypes.string.isRequired,
+          salary: PropTypes.number.isRequired,
      }).isRequired,
 };
+
 export default LatestJobCards

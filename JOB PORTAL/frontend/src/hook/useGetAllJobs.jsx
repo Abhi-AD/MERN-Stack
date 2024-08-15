@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 const useGetAllJobs = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
      const dispatch = useDispatch();
+     // const { searchedQuery } = useSelector(store => store.job);
      useEffect(() => {
           const fetchAllJobs = async () => {
                try {

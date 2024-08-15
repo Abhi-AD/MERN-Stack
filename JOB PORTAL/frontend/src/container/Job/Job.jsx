@@ -59,10 +59,10 @@ Job.propTypes = {
           }).isRequired,
           title: PropTypes.string.isRequired,
           description: PropTypes.string.isRequired,
-          position: PropTypes.string.isRequired,
+          position: PropTypes.number.isRequired,
           jobType: PropTypes.string.isRequired,
-          salary: PropTypes.string.isRequired,
-          createdAt: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
+          salary: PropTypes.number.isRequired,
+          createdAt: PropTypes.string.isRequired,
           _id: PropTypes.string.isRequired,
      }).isRequired,
 };

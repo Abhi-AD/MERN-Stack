@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { setUser } from "@/redux/authSlice"
 import { toast } from "sonner"
+
+const defaultProfileImage = "https://github.com/shadcn.png";
+
 const Navbar = () => {
      const { user } = useSelector(store => store.auth);
      const apiUrl = import.meta.env.VITE_API_URL;
@@ -55,14 +58,14 @@ const Navbar = () => {
                               <Popover>
                                    <PopoverTrigger asChild>
                                         <Avatar className="cursor-pointer">
-                                             <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                             <AvatarImage src={user?.profile?.profilePhoto || defaultProfileImage} alt="@shadcn" />
                                         </Avatar>
                                    </PopoverTrigger>
                                    <PopoverContent className="w-80">
                                         <div className="">
                                              <div className="flex gap-4 space-y-2">
                                                   <Avatar className="cursor-pointer">
-                                                       <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
+                                                       <AvatarImage src={user?.profile?.profilePhoto || defaultProfileImage} alt="@shadcn" />
                                                   </Avatar>
                                                   <div>
                                                        <h4 className="font-normal">{user?.fullname}</h4>
