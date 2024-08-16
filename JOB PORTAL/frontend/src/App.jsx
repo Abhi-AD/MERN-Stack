@@ -1,3 +1,4 @@
+import { Companies, CompanyCreate, CompanySetup } from './admin/import';
 import './App.css';
 import { Footer, Login, Navbar, Register } from './components/import';
 import { Browser, Home, JobDetails, Jobs, NotFound, Profile } from './routes/import';
@@ -16,6 +17,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
+
+        {/* admin */}
+        <Route path="/admin/companies" element={<Companies />} />
+        <Route path="/admin/companies/create" element={<CompanyCreate />} />
+        <Route path="/admin/companies/:id" element={<CompanySetup />} />
+
       </Routes>
       <Footer />
     </BrowserRouter>

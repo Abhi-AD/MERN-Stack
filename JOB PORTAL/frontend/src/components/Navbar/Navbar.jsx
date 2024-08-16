@@ -34,15 +34,40 @@ const Navbar = () => {
      return (
           <div className="bg-white ">
                <div className="flex items-center justify-between paddingcontainer h-16">
-                    <Link to={`/`} className="flex items-center">
-                         {/* <img src="" alt="Logo" className="h-10 w-auto" /> */}
-                         <h1 className="text-3xl font-extrabold">Career <span className="text-[#00c0e4]">Connect</span></h1>
-                    </Link>
+                    {
+                         user && user.role === 'Supervisor' ? (
+                              <>
+                                   <Link to={`/admin/companies`} className="flex items-center">
+                                        {/* <img src="" alt="Logo" className="h-10 w-auto" /> */}
+                                        <h1 className="text-3xl font-extrabold">Career <span className="text-[#00c0e4]">Connect</span></h1>
+                                   </Link>
+                              </>
+                         ) : (
+                              <>
+                                   <Link to={`/`} className="flex items-center">
+                                        {/* <img src="" alt="Logo" className="h-10 w-auto" /> */}
+                                        <h1 className="text-3xl font-extrabold">Career <span className="text-[#00c0e4]">Connect</span></h1>
+                                   </Link>
+                              </>
+                         )
+                    }
+
                     <div className="flex items-center gap-12">
                          <ul className="flex font-medium items-center gap-5">
-                              <li><Link to={`/`}>Home</Link></li>
-                              <li><Link to={`/jobs`}>Jobs</Link></li>
-                              <li><Link to={`/browse`}>Browse</Link></li>
+                              {
+                                   user && user.role === 'Supervisor' ? (
+                                        <>
+                                             <li><Link to="/admin/companies">Companies</Link></li>
+                                             <li><Link to="/admin/jobs">Jobs</Link></li>
+                                        </>
+                                   ) : (
+                                        <>
+                                             <li><Link to="/">Home</Link></li>
+                                             <li><Link to="/jobs">Jobs</Link></li>
+                                             <li><Link to="/browse">Browse</Link></li>
+                                        </>
+                                   )
+                              }
                          </ul>
                          {!user ? (
                               <div className="flex items-center gap-2">
@@ -73,10 +98,15 @@ const Navbar = () => {
                                                   </div>
                                              </div>
                                              <div className="flex flex-col my-2 text-[#525050]">
-                                                  <div className="flex w-fit items-center gap-2 coursor-pointer">
-                                                       <User2 />
-                                                       <Button variant="link"><Link to={`/profile`}>View Profile</Link></Button>
-                                                  </div>
+                                                  {
+                                                       user && user.role === 'Employee' && (
+                                                            <div className="flex w-fit items-center gap-2 coursor-pointer">
+                                                                 <User2 />
+                                                                 <Button variant="link"><Link to={`/profile`}>View Profile</Link></Button>
+                                                            </div>
+                                                       )
+                                                  }
+
                                                   <div className="flex w-fit items-center gap-2 coursor-pointer">
                                                        <LogOut />
                                                        <Button onClick={logoutHandler} variant="link">Logout</Button>
