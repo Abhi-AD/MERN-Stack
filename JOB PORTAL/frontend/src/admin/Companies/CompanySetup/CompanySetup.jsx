@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import useGetCompanyById from "@/hook/useGetCompanyById";
 import axios from "axios";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -23,11 +23,7 @@ const CompanySetup = () => {
           website: "",
           location: "",
           file: null,
-          logo: ""
      });
-     const [preview, setPreview] = useState(""); 
-
-     const fileInputRef = useRef(null);
 
      const changeEventHandler = (e) => {
           setInput({ ...input, [e.target.name]: e.target.value });
@@ -35,10 +31,7 @@ const CompanySetup = () => {
 
      const changeFileHandler = (e) => {
           const file = e.target.files?.[0];
-          if (file) {
-               setInput({ ...input, file });
-               setPreview(URL.createObjectURL(file)); 
-          }
+          setInput({ ...input, file });
      }
 
      const submitHandler = async (e) => {
@@ -78,16 +71,10 @@ const CompanySetup = () => {
                website: singleCompany.website || "",
                location: singleCompany.location || "",
                file: null,
-               logo: singleCompany.logo || ""
           });
-          setPreview(singleCompany.logo || "");
      }, [singleCompany]);
 
-     const handleImageClick = () => {
-          if (fileInputRef.current) {
-               fileInputRef.current.click();
-          }
-     }
+
 
      return (
           <div className="paddingcontainer paddingbuttom">
@@ -138,20 +125,11 @@ const CompanySetup = () => {
                          </div>
                          <div>
                               <Label>Logo</Label>
-                              <div className="mb-4">
-                                   {preview && (
-                                        <div className="relative cursor-pointer" onClick={handleImageClick}>
-                                             <img src={preview} alt="Preview" className="h-20 w-20 object-contain" />
-                                        </div>
-                                   )}
-                                   <Input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={changeFileHandler}
-                                        ref={fileInputRef}
-                                        style={{ display: 'none' }}
-                                   />
-                              </div>
+                              <Input
+                                   type="file"
+                                   accept="image/*"
+                                   onChange={changeFileHandler}
+                              />
                          </div>
                     </div>
                     {
