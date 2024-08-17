@@ -28,7 +28,7 @@ const Job = ({ job }) => {
                     </Button>
                     <div>
                          <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
-                         <p className='text-sm text-gray-500'>Nepal</p>
+                         <p className='text-sm text-gray-500'>{job?.company?.location}, Nepal</p>
                     </div>
                </div>
 
@@ -55,6 +55,7 @@ Job.propTypes = {
      job: PropTypes.shape({
           company: PropTypes.shape({
                name: PropTypes.string.isRequired,
+               location: PropTypes.string.isRequired,
                logo: PropTypes.string,
           }).isRequired,
           title: PropTypes.string.isRequired,
