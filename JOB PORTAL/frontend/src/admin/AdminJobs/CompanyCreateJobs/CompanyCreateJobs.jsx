@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-const CompanyCreate = () => {
+const CompanyCreateJobs = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
      const [input, setInput] = useState({
           title: "",
@@ -176,4 +176,4 @@ const CompanyCreate = () => {
      )
 }
 
-export default CompanyCreate
+export default CompanyCreateJobs
