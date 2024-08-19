@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { AppliedJobTable, UpdateProfileDialog } from "@/container/import";
+import useGetAppliedJobs from "@/hook/useGetAppliedJobs";
 import { Pen } from "lucide-react";
 import { Contact } from "lucide-react";
 import { Mail } from "lucide-react";
@@ -12,6 +13,7 @@ import { useSelector } from "react-redux";
 const isResume = true;
 
 const Profile = () => {
+     useGetAppliedJobs();
      const [open, setOpen] = useState(false);
      const { user } = useSelector(store => store.auth);
      return (

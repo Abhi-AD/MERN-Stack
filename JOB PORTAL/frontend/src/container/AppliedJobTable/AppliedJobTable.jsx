@@ -1,54 +1,19 @@
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
-const appliedJobs = [
-     {
-          _id: '1',
-          createdAt: '2024-08-10T10:00:00Z',
-          job: {
-               title: 'Software Engineer',
-               company: {
-                    name: 'Tech Corp',
-               },
-          },
-          status: 'accepted',
-     },
-     {
-          _id: '2',
-          createdAt: '2024-08-11T11:00:00Z',
-          job: {
-               title: 'Product Manager',
-               company: {
-                    name: 'Innovate LLC',
-               },
-          },
-          status: 'pending',
-     },
-     {
-          _id: '3',
-          createdAt: '2024-08-12T12:00:00Z',
-          job: {
-               title: 'Data Scientist',
-               company: {
-                    name: 'DataWorks',
-               },
-          },
-          status: 'rejected',
-     },
-     {
-          _id: '4',
-          createdAt: '2024-08-13T13:00:00Z',
-          job: {
-               title: 'UX Designer',
-               company: {
-                    name: 'DesignPro',
-               },
-          },
-          status: 'accepted',
-     },
-];
+import { useSelector } from "react-redux";
 
 const AppliedJobTable = () => {
+     const { allAppliedJobs } = useSelector(store => store.job);
+
+     // Function to format date
+     const formatDate = (dateString) => {
+          return new Date(dateString).toLocaleDateString('en-US', {
+               year: 'numeric',
+               month: 'short',
+               day: 'numeric',
+          });
+     };
+
      return (
           <div className="paddingbuttom">
                <Table>
@@ -62,25 +27,28 @@ const AppliedJobTable = () => {
                          </TableRow>
                     </TableHeader>
                     <TableBody>
-                         {appliedJobs.map((appliedJob) => (
-                              <TableRow key={appliedJob._id}>
-                                   <TableCell>{appliedJob.createdAt.split("T")[0]}</TableCell>
-                                   <TableCell>{appliedJob.job.title}</TableCell>
-                                   <TableCell>{appliedJob.job.company.name}</TableCell>
-                                   <TableCell className="text-right">
-                                        <Badge
-                                             className={`${appliedJob.status === "rejected"
-                                                  ? 'bg-red-400'
-                                                  : appliedJob.status === "pending"
-                                                       ? 'bg-gray-400'
-                                                       : 'bg-green-400'
-                                                  }`}
-                                        >
-                                             {appliedJob.status.toUpperCase()}
-                                        </Badge>
+                         {Array.isArray(allAppliedJobs) && allAppliedJobs.length > 0 ? (
+                              allAppliedJobs.map((appliedJob) => (
+                                   <TableRow key={appliedJob._id}>
+                                        <TableCell>{formatDate(appliedJob.createdAt)}</TableCell>
+                                        <TableCell>{appliedJob.job?.title || 'N/A'}</TableCell>
+                                        <TableCell>{appliedJob.job?.company?.name || 'N/A'}</TableCell>
+                                        <TableCell className="text-right">
+                                             <Badge className={`${appliedJob?.status === 'rejected' ? 'bg-red-400' :
+                                                       appliedJob.status === 'pending' ? 'bg-gray-400' : 'bg-green-400'
+                                                  }`}>
+                                                  {appliedJob.status.toUpperCase()}
+                                             </Badge>
+                                        </TableCell>
+                                   </TableRow>
+                              ))
+                         ) : (
+                              <TableRow>
+                                   <TableCell colSpan={4} className="text-center">
+                                        You haven&apos;t applied for any jobs yet.
                                    </TableCell>
                               </TableRow>
-                         ))}
+                         )}
                     </TableBody>
                </Table>
           </div>
