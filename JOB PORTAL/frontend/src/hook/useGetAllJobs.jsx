@@ -1,16 +1,17 @@
 import { setAllJobs } from "@/redux/jobSlice";
 import axios from "axios";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 const useGetAllJobs = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
      const dispatch = useDispatch();
-     // const { searchedQuery } = useSelector(store => store.job);
+     const { searchedQuery } = useSelector(store => store.job);
      useEffect(() => {
           const fetchAllJobs = async () => {
                try {
-                    const joball = await axios.get(`${apiUrl}/jobs/all`, { withCredentials: true });
+                    const joball = await axios.get(`${apiUrl}/jobs/all?keyword=${searchedQuery}`, { withCredentials: true });
                     if (joball.data.success) {
                          dispatch(setAllJobs(joball.data.jobs));
                     }
