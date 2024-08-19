@@ -10,4 +10,5 @@ export { default as CompanyCreateJobs } from './AdminJobs/CompanyCreateJobs/Comp
 export { default as ApplicantsJob } from './AdminJobs/ApplicantsJob/ApplicantsJob'
 
 
+export { default as ProtectedRoute } from './ProtectedRoute/ProtectedRoute'
 

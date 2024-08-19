@@ -1,4 +1,4 @@
-import { AdminJobs, ApplicantsJob, Companies, CompanyCreate, CompanyCreateJobs, CompanySetup } from './admin/import';
+import { AdminJobs, ApplicantsJob, Companies, CompanyCreate, CompanyCreateJobs, CompanySetup, ProtectedRoute } from './admin/import';
 import './App.css';
 import { Footer, Login, Navbar, Register } from './components/import';
 import { Browser, Home, JobDetails, Jobs, NotFound, Profile } from './routes/import';
@@ -19,13 +19,13 @@ function App() {
         <Route path="*" element={<NotFound />} />
 
         {/* admin */}
-        <Route path="/admin/companies" element={<Companies />} />
+        <Route path="/admin/companies" element={<ProtectedRoute> <Companies /> </ProtectedRoute>} />
         <Route path="/admin/companies/create" element={<CompanyCreate />} />
-        <Route path="/admin/companies/:id" element={<CompanySetup />} />
+        <Route path="/admin/companies/:id" element={<ProtectedRoute> <CompanySetup /> </ProtectedRoute>} />
 
-        <Route path="/admin/jobs" element={<AdminJobs />} />
-        <Route path="/admin/jobs/create" element={<CompanyCreateJobs />} />
-        <Route path="/admin/jobs/:id/applicants" element={<ApplicantsJob />} />
+        <Route path="/admin/jobs" element={<ProtectedRoute> <AdminJobs /></ProtectedRoute>} />
+        <Route path="/admin/jobs/create" element={<ProtectedRoute><CompanyCreateJobs /></ProtectedRoute>} />
+        <Route path="/admin/jobs/:id/applicants" element={<ProtectedRoute><ApplicantsJob /></ProtectedRoute>} />
 
 
       </Routes>

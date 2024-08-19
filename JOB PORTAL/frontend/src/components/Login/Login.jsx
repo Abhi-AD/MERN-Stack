@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux"
 import { setLoading, setUser } from "@/redux/authSlice"
 import { useSelector } from "react-redux"
 import { Loader2 } from "lucide-react"
+import { useEffect } from "react"
 
 const Login = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
@@ -21,7 +22,7 @@ const Login = () => {
           password: "",
           role: "",
      });
-     const { loading } = useSelector(store => store.auth)
+     const { loading, user } = useSelector(store => store.auth)
 
      const changeEventHandler = (e) => {
           setInput({ ...input, [e.target.name]: e.target.value });
@@ -49,6 +50,11 @@ const Login = () => {
                dispatch(setLoading(false))
           }
      };
+     useEffect(() => {
+          if (user) {
+               navigate("/");
+          }
+     }, [])
      return (
           <div className="flex items-center justify-center paddingform">
                <form onSubmit={submitHandler} className="w-1/2 border border-gray-200 rounded-md p-4 my-10">

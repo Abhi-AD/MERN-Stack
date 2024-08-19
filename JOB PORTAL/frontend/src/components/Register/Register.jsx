@@ -11,12 +11,13 @@ import { useSelector } from "react-redux";
 import { setLoading } from "@/redux/authSlice";
 import { useDispatch } from "react-redux";
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 
 const Register = () => {
      const apiUrl = import.meta.env.VITE_API_URL;
      const navigate = useNavigate();
      const dispatch = useDispatch();
-     const { loading } = useSelector(store => store.auth)
+     const { loading, user } = useSelector(store => store.auth)
 
      const [input, setInput] = useState({
           fullname: "",
@@ -69,6 +70,11 @@ const Register = () => {
           }
      };
 
+     useEffect(() => {
+          if (user) {
+               navigate("/");
+          }
+     }, [])
      return (
           <div className="flex items-center justify-center paddingform">
                <form onSubmit={submitHandler} className="w-1/2 border border-gray-200 rounded-md p-4 my-10">
