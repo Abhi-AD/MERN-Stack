@@ -11,3 +11,7 @@ app.use(cors());
 app.get("/test", async (req: Request, res: Response) => {
      res.send({ message: "Test OK!" });
 });
+
+app.listen(8000, () => {
+     console.log("server started on localhost:8000");
+});
