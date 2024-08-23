@@ -4,7 +4,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 
 mongoose.connect(process.env.MONGO_URI as string)
-.then(() => console.log("Connected to database!"));
+     .then(() => console.log("Connected to database!"));
 
 
 const app = express();
