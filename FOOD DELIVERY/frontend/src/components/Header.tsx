@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-// import MobileNav from "./MobileNav";
+import MobileNav from "./MobileNav";
 // import MainNav from "./MainNav";
 
 const Header = () => {
@@ -12,6 +12,9 @@ const Header = () => {
                     >
                          MunchWhiz
                     </Link>
+                    <div className="md:hidden">
+                         <MobileNav />
+                    </div>
                </div>
           </div>
      );
