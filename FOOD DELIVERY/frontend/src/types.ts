@@ -33,3 +33,10 @@ export type RestaurantSearchResponse = {
           pages: number;
      };
 };
+
+export type SearchState = {
+     searchQuery: string;
+     page: number;
+     selectedCuisines: string[];
+     sortOption: string;
+};
