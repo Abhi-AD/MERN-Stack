@@ -24,6 +24,7 @@ Make sure you have the following installed:
 * MongoDB (v4.x or higher)
 * Angular CLI (v12.x or higher)
 
+
 #### Backend Setup
 * Clone the repository:
 ```bash
