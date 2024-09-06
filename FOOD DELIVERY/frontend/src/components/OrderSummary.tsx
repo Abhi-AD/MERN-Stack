@@ -8,9 +8,10 @@ import { Badge } from "./ui/badge";
 type Props = {
      restaurant: Restaurant;
      cartItems: CartItem[];
+     removeFromCart: (CartItem: CartItem) => void;
 };
 
-const OrderSummary = ({ restaurant, cartItems }: Props) => {
+const OrderSummary = ({ restaurant, cartItems, removeFromCart }: Props) => {
      const getTotalCost = () => {
           const totalInPence = cartItems.reduce(
                (total, cartItem) => total + cartItem.price * cartItem.quantity,
@@ -23,7 +24,7 @@ const OrderSummary = ({ restaurant, cartItems }: Props) => {
      };
      return (
           <>
-               <CardHeader> 
+               <CardHeader>
                     <CardTitle className="text-2xl font-bold tracking-tight flex justify-between">
                          <span>Your Order</span>
                          <span>Rs:{getTotalCost()}</span>
@@ -43,6 +44,7 @@ const OrderSummary = ({ restaurant, cartItems }: Props) => {
                                         className="cursor-pointer"
                                         color="red"
                                         size={20}
+                                        onClick={() => removeFromCart(item)}
                                    />
                                    Rs:{((item.price * item.quantity) / 100).toFixed(2)}
                               </span>
