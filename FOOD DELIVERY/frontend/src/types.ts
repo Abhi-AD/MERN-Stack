@@ -40,3 +40,10 @@ export type SearchState = {
      selectedCuisines: string[];
      sortOption: string;
 };
+
+export type CartItem = {
+     _id: string;
+     name: string;
+     price: number;
+     quantity: number;
+};

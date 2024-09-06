@@ -1,13 +1,55 @@
 import { useGetRestaurant } from "@/api/RestaurantApi";
 import MenuItem from "@/components/MenuItem";
+import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Card } from "@/components/ui/card";
+import { CartItem, MenuItem as MenuItemType } from "../types";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const DetailPage = () => {
      const { restaurantId } = useParams();
      const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+
+     const addToCart = (menuItem: MenuItemType) => {
+          setCartItems((prevCartItems) => {
+               // check if the item is already in the card
+               const existingCartItem = prevCartItems.find(
+                    (cartItem) => cartItem._id === menuItem._id
+               );
+
+               let updatedCartItems;
+               // if item is in card, update the quantity
+               if (existingCartItem) {
+                    updatedCartItems = prevCartItems.map((cartItem) =>
+                         cartItem._id === menuItem._id
+                              ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                              : cartItem
+                    );
+               }
+               else {
+                    updatedCartItems = [
+                         ...prevCartItems,
+                         {
+                              _id: menuItem._id,
+                              name: menuItem.name,
+                              price: menuItem.price,
+                              quantity: 1,
+                         },
+                    ];
+               }
+
+               // if item is not in card, and it as a new item
+               sessionStorage.setItem(
+                    `cartItems-${restaurantId}`,
+                    JSON.stringify(updatedCartItems)
+               );
+               return updatedCartItems;
+          });
+     };
      if (isLoading || !restaurant) {
           return "Loading...";
      }
@@ -26,8 +68,17 @@ const DetailPage = () => {
                          {restaurant.menuItems.map((menuItem) => (
                               <MenuItem
                                    menuItem={menuItem}
+                                   addToCart={() => addToCart(menuItem)}
                               />
                          ))}
+                    </div>
+                    <div>
+                         <Card>
+                              <OrderSummary
+                                   restaurant={restaurant}
+                                   cartItems={cartItems}
+                              />
+                         </Card>
                     </div>
                </div>
           </div>
