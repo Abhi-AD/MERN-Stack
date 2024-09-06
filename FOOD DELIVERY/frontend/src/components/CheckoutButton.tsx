@@ -38,7 +38,11 @@ const CheckoutButton = ({ onCheckout, disabled }: Props) => {
      return (
           <Dialog>
                <DialogTrigger asChild>
+<<<<<<< HEAD
                     <Button disabled={disabled} className="bg-[#008080] flex-1">
+=======
+                    <Button className="bg-[#008080] flex-1">
+>>>>>>> 852f346 (bad status)
                          Go to checkout
                     </Button>
                </DialogTrigger>
@@ -47,6 +51,11 @@ const CheckoutButton = ({ onCheckout, disabled }: Props) => {
                          currentUser={currentUser}
                          onSave={onCheckout}
                          isLoading={isGetUserLoading}
+<<<<<<< HEAD
+=======
+                         title="Confirm Deliery Details"
+                         buttonText="Continue to payment"
+>>>>>>> 852f346 (bad status)
                     />
                </DialogContent>
           </Dialog>

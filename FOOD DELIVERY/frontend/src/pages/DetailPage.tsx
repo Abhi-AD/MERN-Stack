@@ -107,7 +107,10 @@ const DetailPage = () => {
                                    <CheckoutButton
                                         disabled={cartItems.length === 0}
                                         onCheckout={onCheckout}
+<<<<<<< HEAD
                                         isLoading={isCheckoutLoading}
+=======
+>>>>>>> 852f346 (bad status)
                                    />
                               </CardFooter>
                          </Card>
