@@ -3,15 +3,19 @@ import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { CartItem, MenuItem as MenuItemType } from "../types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import CheckoutButton from "@/components/CheckoutButton";
 
 const DetailPage = () => {
      const { restaurantId } = useParams();
      const { restaurant, isLoading } = useGetRestaurant(restaurantId);
-     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+     const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+          const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
+          return storedCartItems ? JSON.parse(storedCartItems) : [];
+     });
 
 
      const addToCart = (menuItem: MenuItemType) => {
@@ -56,6 +60,10 @@ const DetailPage = () => {
                const updatedCartItems = prevCartItems.filter(
                     (item) => cartItem._id !== item._id
                );
+               sessionStorage.setItem(
+                    `cartItems-${restaurantId}`,
+                    JSON.stringify(updatedCartItems)
+               );
                return updatedCartItems;
           });
      };
@@ -88,6 +96,9 @@ const DetailPage = () => {
                                    cartItems={cartItems}
                                    removeFromCart={removeFromCart}
                               />
+                              <CardFooter>
+                                   <CheckoutButton />
+                              </CardFooter>
                          </Card>
                     </div>
                </div>
