@@ -3,63 +3,60 @@ import { useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useGetMyUser } from "@/api/MyUserApi";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import UserProfileForm, { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
+import UserProfileForm, {
+  UserFormData,
+} from "@/forms/user-profile-form/UserProfileForm";
 import LoadingButton from "./LoadingButton";
 
 type Props = {
-     onCheckout: (userFormData: UserFormData) => void;
-     disabled: boolean;
-     isLoading: boolean;
+  onCheckout: (userFormData: UserFormData) => void;
+  disabled: boolean;
+  isLoading: boolean;
 };
 const CheckoutButton = ({ onCheckout, disabled }: Props) => {
-     const { isAuthenticated, isLoading: isAuthLoading, loginWithRedirect } = useAuth0();
-     const { pathname } = useLocation();
-     const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
+  const {
+    isAuthenticated,
+    isLoading: isAuthLoading,
+    loginWithRedirect,
+  } = useAuth0();
+  const { pathname } = useLocation();
+  const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
 
-     const onLogin = async () => {
-          await loginWithRedirect({
-               appState: {
-                    returnTo: pathname,
-               },
-          });
-     };
+  const onLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: pathname,
+      },
+    });
+  };
 
-     if (!isAuthenticated) {
-          return (
-               <Button onClick={onLogin} className="bg-[#008080] flex-1">
-                    Log in to check out
-               </Button>
-          );
-     }
+  if (!isAuthenticated) {
+    return (
+      <Button onClick={onLogin} className="bg-[#008080] flex-1">
+        Log in to check out
+      </Button>
+    );
+  }
 
-     if (isAuthLoading || !currentUser) {
-          return <LoadingButton />;
-     }
-     return (
-          <Dialog>
-               <DialogTrigger asChild>
-<<<<<<< HEAD
-                    <Button disabled={disabled} className="bg-[#008080] flex-1">
-=======
-                    <Button className="bg-[#008080] flex-1">
->>>>>>> 852f346 (bad status)
-                         Go to checkout
-                    </Button>
-               </DialogTrigger>
-               <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-50">
-                    <UserProfileForm
-                         currentUser={currentUser}
-                         onSave={onCheckout}
-                         isLoading={isGetUserLoading}
-<<<<<<< HEAD
-=======
-                         title="Confirm Deliery Details"
-                         buttonText="Continue to payment"
->>>>>>> 852f346 (bad status)
-                    />
-               </DialogContent>
-          </Dialog>
-     );
+  if (isAuthLoading || !currentUser) {
+    return <LoadingButton />;
+  }
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button disabled={disabled} className="bg-[#008080] flex-1">
+          Go to checkout
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-50">
+        <UserProfileForm
+          currentUser={currentUser}
+          onSave={onCheckout}
+          isLoading={isGetUserLoading}
+        />
+      </DialogContent>
+    </Dialog>
+  );
 };
 
 export default CheckoutButton;
